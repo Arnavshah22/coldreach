@@ -69,3 +69,4 @@ logs/
 
 # Personal working log: contains real lead addresses and campaign specifics.
 CLAUDE.md
+!sample_outreach.csv

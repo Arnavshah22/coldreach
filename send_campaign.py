@@ -309,8 +309,15 @@ def main():
         before = len(df)
         df = df[(df["verification_status"] == "valid") & df["email"].notna()]
         print(f"{len(df)} of {before} rows verified 'valid' by hunter", file=sys.stderr)
-    else:
+    elif "status" in df.columns:
         df = df[df["status"].isin(SEND_STATES) & df["email"].notna()]
+    else:
+        raise SystemExit(
+            f"{args.infile} has no 'verification_status' or 'status' column, so there "
+            f"is no way to tell which addresses were verified.\n"
+            f"This stage takes the output of outreach_agent.py --out or "
+            f"find_emails.py --out, not a raw company list.\n"
+            f"Columns found: {', '.join(map(str, df.columns))}")
 
     if args.research:
         # A verified mailbox is not the same thing as a live company. An acquired

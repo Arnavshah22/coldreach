@@ -1,0 +1,7 @@
+company,strategy_used,email,verification_status,action_executed,internal_thought,domain,ceo,source,verify_score,size_tier,checked_at
+Kettlebridge Labs,scrape,dana@kettlebridge.example.com,valid,sequence_queued,contact page published a named human; verifier agreed,kettlebridge.example.com,Dana Whitfield,contact_page,98,1-10,2026-09-16T10:00:00
+Marrowfield,hunter,peter.oyelaran@marrowfield.example.com,valid,sequence_queued,hunter had it on file at high confidence,marrowfield.example.com,Peter Oyelaran,hunter_io,96,1-10,2026-09-16T10:01:00
+Tunwell Analytics,scrape,hello@tunwell.example.org,valid,sequence_queued,role inbox but verified; no named human published,tunwell.example.org,Ingrid Solheim,contact_page,88,1-10,2026-09-16T10:02:00
+Bellweather Tools,scrape,info@bellweather.example.net,valid,sequence_queued,role inbox,bellweather.example.net,Ravi Anand,contact_page,85,11-50,2026-09-16T10:03:00
+Quillhaven,hunter,sofia@quillhaven.example.com,valid,sequence_queued,founder address,quillhaven.example.com,Sofia Marchetti,hunter_io,94,1-10,2026-09-16T10:04:00
+Ashgrove Studio,scrape,info@ashgrove.example.org,invalid,logged_error,scrape found a dead address; verifier caught it,ashgrove.example.org,Tom Beckwith,contact_page,12,1-10,2026-09-16T10:05:00

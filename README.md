@@ -44,12 +44,19 @@ cp profile.example.json profile.json # fill in who you are
 Then see it work, against invented companies, sending nothing:
 
 ```bash
-python send_campaign.py sample_startups.csv --template template.txt --custom sample_custom.csv
+python send_campaign.py sample_outreach.csv --template template.txt --custom sample_custom.csv
 ```
 
-That prints two fully rendered emails and refuses the other four, because only two of the
-six sample companies have a written paragraph. **That refusal is the feature.** Fill in
-`profile.json` first or it will refuse all six.
+That prints **two** fully rendered emails and refuses **three**, because only two of the
+five verified sample companies have a written paragraph. (The sixth sample company failed
+verification and never reaches this stage.) **That refusal is the feature** — an email with
+an unwritten paragraph in it should never be sendable by accident.
+
+Fill in `profile.json` first, or it will refuse all five for the same reason.
+
+The three sample CSVs correspond to the three stages: `sample_startups.csv` is what stage 1
+produces, `sample_outreach.csv` is what stage 3 produces and what the sender consumes, and
+`sample_custom.csv` is the prose you write by hand in between.
 
 ---
 
