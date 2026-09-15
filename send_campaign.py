@@ -206,11 +206,19 @@ def render(tpl_text, row, profile=None):
 
     hit = next((m for m in PLACEHOLDER_MARKERS if m in rendered or m in subject), None)
     if hit:
+        # Quote the placeholder itself. "contains '<<<'" sends the reader hunting
+        # through custom.csv even when the real cause is an unfilled profile field.
+        whole = subject + "\n" + rendered
+        start = whole.find("<<<")
+        if start != -1:
+            end = whole.find(">>>", start)
+            hit = whole[start:end + 3] if end != -1 else whole[start:start + 80]
+            hit = " ".join(hit.split())[:120]
         # Raise, don't exit: one unwritten company must not abandon the rest of the
         # campaign halfway through. main() catches this and skips the single row.
         raise PlaceholderError(
-            f"rendered text still contains {hit!r} — the per-company line has not been "
-            f"written yet"
+            f"not ready to send — {hit!r}. Fill it in (custom.csv for a per-company "
+            f"line, profile.json for your own details)."
         )
     return subject, rendered
 
@@ -298,9 +306,9 @@ def main():
     # the em-dashes and middle dots in the template before they ever reach the wire.
     tpl_text = open(args.template, encoding="utf-8").read()
     profile = load_profile(args.profile)
-    if not profile:
-        print(f"no sender profile at {args.profile} — copy profile.example.json to "
-              f"profile.json and fill it in, or every message will be refused",
+    if not os.path.exists(args.profile):
+        print(f"!! no sender profile at {args.profile} — copy profile.example.json to "
+              f"profile.json and fill it in. Every message will be refused until you do.",
               file=sys.stderr)
     df = pd.read_csv(args.infile)
     # outreach_agent.py gates on Hunter's verifier verdict; find_emails.py gates on its
