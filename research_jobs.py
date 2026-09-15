@@ -50,6 +50,7 @@ Usage
 """
 import argparse
 import json
+import os
 import re
 import sqlite3
 import sys
@@ -754,6 +755,17 @@ def main():
               f"{res['page_status']:<20} {tail}", file=sys.stderr)
 
     out = pd.DataFrame(rows)
+    # Accumulate rather than overwrite. send_campaign.py --research uses this file as a
+    # liveness gate, so a run scoped to one --size tier must not erase what is known
+    # about the others: a dropped company whose mailbox still verifies `valid` comes
+    # straight back into the send queue. Newest row per domain wins.
+    if os.path.exists(args.out):
+        prev = pd.read_csv(args.out)
+        if "domain" in prev.columns:
+            keep = prev[~prev["domain"].isin(set(out["domain"]))]
+            print(f"{args.out}: {len(keep)} earlier rows kept, {len(out)} from this run",
+                  file=sys.stderr)
+            out = pd.concat([keep, out], ignore_index=True)
     out.to_csv(args.out, index=False, encoding="utf-8")
     print_summary(out, fresh, cached, args.out)
 
