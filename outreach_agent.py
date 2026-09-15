@@ -361,7 +361,20 @@ def main():
         "_domain": "domain", "_ceo": "ceo", "_source": "source",
         "_score": "verify_score", "_tier": "size_tier", "_ts": "checked_at",
     })
-    out.to_csv(args.out, index=False, encoding="utf-8")
+    # Accumulate into --out rather than overwriting it. The --skip-sent gate reads its
+    # "already emailed" list back out of this same file, so a wholesale overwrite threw
+    # away the memory that gate depends on: every company resolved in an earlier run
+    # silently became eligible again, and the next run paid Hunter to re-resolve people
+    # who had already been mailed. Newest row per domain wins.
+    if os.path.exists(args.out):
+        prev = pd.read_csv(args.out)
+        keep = prev[~prev["domain"].isin(set(out["domain"]))] if "domain" in prev else prev
+        merged = pd.concat([keep, out], ignore_index=True)
+        print(f"{args.out}: {len(keep)} earlier rows kept, {len(out)} from this run",
+              file=sys.stderr)
+    else:
+        merged = out
+    merged.to_csv(args.out, index=False, encoding="utf-8")
 
     counts = {}
     for r in results:
