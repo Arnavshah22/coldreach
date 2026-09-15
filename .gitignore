@@ -1,0 +1,71 @@
+# ---------------------------------------------------------------------------
+# Credentials
+# ---------------------------------------------------------------------------
+.env
+profile.json
+
+# ---------------------------------------------------------------------------
+# Real lead data — NEVER COMMIT.
+#
+# These files hold other people's names and working email addresses, collected
+# from company websites and Hunter.io. They are not yours to publish: a public
+# repo is indexed and scraped within days, and a deletion does not reach the
+# forks, clones and caches that already have it.
+#
+# Only the sample_*.csv files below are safe to commit. Everything else that
+# comes out of this pipeline is somebody's contact details.
+#
+# If you add a new output file, add it here FIRST.
+# ---------------------------------------------------------------------------
+*.sqlite
+*.sqlite3
+
+startups_clean.csv
+custom.csv
+verified.csv
+outreach.csv
+outreach_*.csv
+research.csv
+campaign.csv
+
+# Catch-alls for anything derived from the above.
+*_leads.csv
+*_verified.csv
+*_emails.csv
+
+# Your own application letter, if you keep a filled-in copy separately.
+template.arnav.txt
+template.previous.txt
+
+# ---------------------------------------------------------------------------
+# Explicitly allowed: the synthetic samples a fresh clone runs on.
+# Every domain in these is under example.com/.org/.net (RFC 2606 reserved),
+# so no address in them can ever belong to a real person.
+# ---------------------------------------------------------------------------
+!sample_startups.csv
+!sample_custom.csv
+!profile.example.json
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# ---------------------------------------------------------------------------
+# Editors / OS
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+logs/
+
+# Personal working log: contains real lead addresses and campaign specifics.
+CLAUDE.md

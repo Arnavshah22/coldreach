@@ -1,0 +1,7 @@
+domain,role,hook,tie_back,why,needs_research,_description,_ceo
+kettlebridge.example.com,Backend / AI Engineer,Your docs say retrieval quality is the thing you keep rebuilding — that the ranking is easy and the evaluation is not.,"That is the same wall I hit: the model was never the bottleneck, judging whether a retrieved chunk was actually the right one was.","Search quality has a feedback loop you can actually close, which is rarer than it sounds.",no,vector search infrastructure for small teams,Dana Whitfield
+marrowfield.example.com,Backend Engineer,"A scheduling API is all edge cases — double bookings, timezones, the clinic that runs 20-minute slots on Thursdays only.",I spent a month on reconcile-or-flag logic for exactly that shape of problem: never silently pick a winner when two sources disagree.,Correctness you can be held to beats scale you can brag about.,no,scheduling API for independent clinics,Peter Oyelaran
+tunwell.example.org,,,,,yes,,
+bellweather.example.net,,,,,yes,,
+quillhaven.example.com,,,,,yes,,
+ashgrove.example.org,,,,,yes,,

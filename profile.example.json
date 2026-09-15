@@ -1,0 +1,21 @@
+{
+  "_comment": "Copy to profile.json and replace every value with your own. Anything you cannot defend in a first call should not be in here — a cold email whose claims contradict your CV fails at exactly the moment it was working. Fields left as the <<< ... >>> placeholders below will be refused by send_campaign.py rather than mailed.",
+
+  "sender_name": "<<< YOUR FIRST NAME, as you sign off >>>",
+  "sender_full_name": "<<< YOUR FULL NAME >>>",
+  "default_role": "<<< THE ROLE YOU ARE PITCHING FOR, e.g. Backend / AI Engineer >>>",
+
+  "sender_intro": "<<< ONE CLAUSE: what you are and where, plus how long. It completes the sentence 'I'm <name>, ...'. e.g. 'a backend engineer based in Lisbon, working on payments infrastructure for three years' >>>",
+
+  "project": "<<< ONE PARAGRAPH on the piece of work you are proudest of. What it does, what you personally owned, and what the genuinely hard part turned out to be. The hard part is what earns the reply — it is the one thing a recruiter cannot get from your CV. Do not open it with a colon label; the template already spends its single label on 'Why <company>:'. >>>",
+
+  "background": "<<< ONE PARAGRAPH on what you did before, ending in a plain stack list. Keep it factual and checkable. >>>",
+
+  "links": [
+    "<<< A thing they can open, e.g. a package, a demo, a paper >>>",
+    "GitHub: https://github.com/<<< you >>>",
+    "LinkedIn: https://linkedin.com/in/<<< you >>>"
+  ],
+
+  "availability": "<<< ONE LINE on when you can start and in what capacity. e.g. 'Availability: Full-time, can start within two weeks. Happy to discuss a specific date.' >>>"
+}

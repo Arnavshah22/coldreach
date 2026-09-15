@@ -1,0 +1,22 @@
+Subject: {{ role | default(default_role, true) }} at {{ company }}
+
+Hi {{ first_name or "there" }},
+
+I'm {{ sender_name }}, {{ sender_intro }}. I'm writing because I'd like to join {{ company }} as a
+{{ role | default(default_role, true) }}, and I'd rather make the case directly than wait for a posting.
+
+{{ hook | default("<<< HOOK: answer a specific requirement or constraint THEY named. Mirror their language. >>>", true) }}
+
+{{ project }} {{ tie_back | default("<<< TIE-BACK: one sentence mapping that hard part onto THEIR problem. >>>", true) }}
+
+{{ background }}
+
+Work you can open:
+{% for link in links %}- {{ link }}
+{% endfor %}
+Why {{ company }}: {{ why | default("<<< WHY THEM: the hard problem in their domain, and why the feedback loop on it appeals to you. >>>", true) }}
+
+{{ availability }}
+
+Best,
+{{ sender_full_name }}
