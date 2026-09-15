@@ -250,7 +250,11 @@ def smtp_connect():
     server = smtplib.SMTP(os.environ["SMTP_HOST"], int(os.getenv("SMTP_PORT", 587)),
                           timeout=30)
     server.starttls()
-    server.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
+    # Gmail displays an App Password as "abcd efgh ijkl mnop" and people paste it as
+    # shown. The spaces are formatting, not part of the secret, but SMTP AUTH takes the
+    # string literally and rejects it — which surfaces as a bare auth failure on the
+    # first message with nothing pointing at the cause. Strip whitespace.
+    server.login(os.environ["SMTP_USER"], "".join(os.environ["SMTP_PASS"].split()))
     return server
 
 
