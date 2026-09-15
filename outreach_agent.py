@@ -264,6 +264,12 @@ def main():
                     help="skip companies already emailed. Pass '' to disable.")
     ap.add_argument("--run", action="store_true",
                     help="actually call the APIs and scrape. Default is a dry plan.")
+    ap.add_argument("--refresh", action="store_true",
+                    help="reprocess domains already in outreach.sqlite instead of "
+                         "replaying the cached result. Needed to retry a company with "
+                         "a different --strategy: the cache is keyed on domain alone, "
+                         "so without this a second attempt silently returns the first "
+                         "attempt's answer and spends nothing.")
     args = ap.parse_args()
 
     df = pd.read_csv(args.infile)
@@ -339,10 +345,15 @@ def main():
     con = db_init()
     results = []
     for i, r in enumerate(rows, 1):
-        cached = con.execute("SELECT payload FROM seen WHERE domain=?",
-                             (r["domain"],)).fetchone()
+        # The cache exists so an interrupted run can resume without re-spending. It is
+        # keyed on domain only, which means it also swallows a deliberate retry under a
+        # different strategy — the run looks like it worked and the ledger fills with
+        # four-day-old rows. --refresh is the way to say "no, actually do it again".
+        cached = None if args.refresh else con.execute(
+            "SELECT payload FROM seen WHERE domain=?", (r["domain"],)).fetchone()
         if cached:
             log = json.loads(cached[0])
+            log["_cached"] = True
         else:
             log = process(r, budget, args.strategy, args.scrape_delay,
                           args.any_prose or r["domain"] in prose)
@@ -354,7 +365,8 @@ def main():
         # The spec's required per-turn output.
         print(json.dumps({k: v for k, v in log.items() if not k.startswith("_")},
                          indent=2))
-        print(f"   [{i}/{len(rows)}] {budget}", file=sys.stderr)
+        note = "  (replayed from cache, nothing spent)" if log.get("_cached") else ""
+        print(f"   [{i}/{len(rows)}] {budget}{note}", file=sys.stderr)
 
     out = pd.DataFrame(results).rename(columns={
         "company_processed": "company", "email_found": "email",
